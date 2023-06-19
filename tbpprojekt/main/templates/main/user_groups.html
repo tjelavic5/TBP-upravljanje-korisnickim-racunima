@@ -1,0 +1,80 @@
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+</style>
+
+{% extends 'main/base.html' %}
+{% block content %}
+
+    <form method="post">
+        {% csrf_token %}
+        <h3>Create new group</h3>
+        {{ create_group_form.as_p }}
+        <button type="submit">Create Group</button>
+    </form> 
+
+<!--
+    <form method="post">
+        {% csrf_token %}
+        {{ delete_group_form }}
+        <input type="submit" value="Delete Group">
+    </form>   
+--> 
+
+    <form method="post">
+        {% csrf_token %}
+        <h3>Add user to group</h3>
+        {{ add_remove_user_form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+
+    <h3>Existing Groups</h3>
+    <table>
+        <tr>
+            <th>Group</th>
+            <th>Members</th>
+        </tr>
+        {% for group in groups %}
+            <tr>
+                <td>{{ group.name }}</td>
+                <td>
+                    <ul>
+                        {% for user in group.user_set.all %}
+                            <li>{{ user.username }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td>Admin</td>
+            <td>
+                <ul>
+                    {% for user in users %}
+                        {% if user.is_staff %}
+                            <li>{{ user.username }}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </td>
+        </tr>
+    </table>    
+
+{% endblock %}

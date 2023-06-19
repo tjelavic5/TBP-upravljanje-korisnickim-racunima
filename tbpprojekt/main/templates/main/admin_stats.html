@@ -1,0 +1,36 @@
+{% extends 'main/base.html' %}
+{% block title %}Admin Stats{% endblock %}
+{% block content %}
+    <h2>Statistics</h2>
+    <p>Total users: {{ user_count }}</p>
+    <p>Total posts: {{ post_count }}</p>
+    <p>Average posts per user: {{ avg_posts_per_user }}</p>
+
+    <h3>General User Activity</h3>
+    <ul>
+        {% for user in users %}
+            <li>{{ user.username }}: {{ user.num_posts }} posts, last login {{ user.last_login }}, account created {{ user.date_joined }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>User Actions</h3>
+    <ul>
+        {% for user in users %}
+            <li><a href="{% url 'main:admin_user_actions' user.username %}">{{ user.username }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <h3>Post Statistics</h3>
+    <ul>
+        {% for post in posts %}
+            <li>{{ post.title }}: created {{ post.created_at }}, last updated {{ post.updated_at }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Group Statstics</h3>
+    <ul>
+        {% for group in groups %}
+            <li>{{ group.name }}: {{ group.num_users }} users</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'main/base.html' %}
+{% block title %}User Actions{% endblock %}
+{% block content %}
+    <h2>User actions for {{ username }}</h2>
+    <ul>
+        {% for action in actions %}
+        <li>
+            {{ action.get_action_type_display }} 
+            {% if action.target_user %}
+                {{ action.target_user.username }}
+            {% endif %}
+            at {{ action.timestamp }}
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock %}
